@@ -36,15 +36,6 @@ export default function Home() {
             <h2 className="font-bold text-pink-800 text-3xl pt-4">We would never steal your data.</h2>
 
             <input
-              type="text"
-              name="name"
-              id="name"
-              className="form-input rounded w-full p-4 mt-4 border-2 border-blue-500 text-blue-500"
-              placeholder="Full name"
-              autocomplete="name"
-              onChange={updateFormdataFactory('name')}
-            />
-            <input
               type="email"
               name="email"
               id="email"
@@ -52,6 +43,15 @@ export default function Home() {
               placeholder="Email"
               autocomplete="email"
               onChange={updateFormdataFactory('email')}
+            />
+            <input
+              type="text"
+              name="name"
+              id="name"
+              className="form-input rounded w-full p-4 mt-4 border-2 border-blue-500 text-blue-500"
+              placeholder="Full name"
+              autocomplete="name"
+              onChange={updateFormdataFactory('name')}
             />
             <div className="h-0 overflow-hidden">
               <input
