@@ -42,7 +42,6 @@ export default function Home() {
               className="form-input rounded w-full p-4 mt-4 border-2 border-blue-500 text-blue-500"
               placeholder="Email"
               autocomplete="email"
-              onChange={updateFormdataFactory('email')}
             />
             <input
               type="text"
@@ -51,7 +50,6 @@ export default function Home() {
               className="form-input rounded w-full p-4 mt-4 border-2 border-blue-500 text-blue-500"
               placeholder="Full name"
               autocomplete="name"
-              onChange={updateFormdataFactory('name')}
             />
             <div className="h-0 overflow-hidden">
               <input
